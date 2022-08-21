@@ -13,7 +13,7 @@ interface NoteDao {
     suspend fun insertNote(note: LocalNote)
 
     @Query("SELECT * FROM LocalNote WHERE locallyDeleted =0 ORDER BY date DESC")
-    suspend fun getAllNotesOrderedByDate(): Flow<List<LocalNote>>
+    fun getAllNotesOrderedByDate(): Flow<List<LocalNote>>
 
     @Query("DELETE FROM LocalNote WHERE noteId = :noteId")
     suspend fun deleteNote(noteId: String)
