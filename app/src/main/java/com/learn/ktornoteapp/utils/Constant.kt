@@ -7,8 +7,8 @@ object Constant {
 
     const val BASE_URL = "https://notesdb-server.herokuapp.com"
     const val API_VERSION = "/v1"
-    const val USERS_ENDPOINT = "/users"
-    const val NOTES_ENDPOINT = "/notes"
+    const val USERS_ENDPOINT = "users"
+    const val NOTES_ENDPOINT = "notes"
 
     const val MINIMUM_PASSWORD_LENGTH = 4
     const val MAXIMUM_PASSWORD_LENGTH = 8

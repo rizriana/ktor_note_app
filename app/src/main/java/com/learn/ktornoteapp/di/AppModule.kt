@@ -64,20 +64,13 @@ object AppModule {
     @Singleton
     @Provides
     fun provideNoteApi(): NoteApiService {
-        val client = if (BuildConfig.DEBUG) {
-            OkHttpClient
-                .Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .writeTimeout(120, TimeUnit.SECONDS)
-                .build()
-        } else {
-            OkHttpClient
-                .Builder()
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .writeTimeout(120, TimeUnit.SECONDS)
-                .build()
-        }
+
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -85,6 +78,7 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NoteApiService::class.java)
+
     }
 
     @Singleton

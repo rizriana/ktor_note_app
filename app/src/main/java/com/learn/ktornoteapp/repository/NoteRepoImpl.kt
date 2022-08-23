@@ -3,7 +3,9 @@ package com.learn.ktornoteapp.repository
 import android.content.res.Resources
 import com.learn.ktornoteapp.R
 import com.learn.ktornoteapp.data.local.dao.NoteDao
+import com.learn.ktornoteapp.data.local.local_model.LocalNote
 import com.learn.ktornoteapp.data.remote.NoteApiService
+import com.learn.ktornoteapp.data.remote.remote_model.RemoteNote
 import com.learn.ktornoteapp.data.remote.remote_model.User
 import com.learn.ktornoteapp.utils.Result
 import com.learn.ktornoteapp.utils.SessionManager
@@ -77,6 +79,66 @@ class NoteRepoImpl @Inject constructor(
             e.printStackTrace()
             Result.Error(e.message ?: Resources.getSystem()
                 .getString(R.string.some_problem_occurred))
+        }
+    }
+
+    override suspend fun createNote(note: LocalNote): Result<String> {
+        return try {
+            noteDao.insertNote(note)
+            val token = sessionManager.getJwtToken()
+            if (token == null) {
+                Result.Success("Note is Saved in Local Database!")
+            }
+
+            val result = noteApi.createNote(
+                "Bearer $token",
+                RemoteNote(
+                    id = note.noteId,
+                    noteTitle = note.noteTitle,
+                    description = note.description,
+                    date = note.date
+                )
+            )
+
+            if (result.success) {
+                noteDao.insertNote(note.also { it.connected = true })
+                Result.Success("Note Saved Successfully!")
+            } else {
+                Result.Error(result.message)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(e.message ?: "Some Problem Occurred!")
+        }
+    }
+
+    override suspend fun updateNote(note: LocalNote): Result<String> {
+        return try {
+            noteDao.insertNote(note)
+            val token = sessionManager.getJwtToken()
+            if (token == null) {
+                Result.Success("Note is Updated in Local Database!")
+            }
+
+            val result = noteApi.updateNote(
+                "Bearer $token",
+                RemoteNote(
+                    id = note.noteId,
+                    noteTitle = note.noteTitle,
+                    description = note.description,
+                    date = note.date
+                )
+            )
+
+            if (result.success) {
+                noteDao.insertNote(note.also { it.connected = true })
+                Result.Success("Note Updated Successfully!")
+            } else {
+                Result.Error(result.message)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.Error(e.message ?: "Some Problem Occurred!")
         }
     }
 }

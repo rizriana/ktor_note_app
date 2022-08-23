@@ -32,7 +32,7 @@ interface NoteApiService {
     suspend fun createNote(
         @Header("Authorization") token: String,
         @Body note: RemoteNote,
-    ): List<SimpleResponse>
+    ): SimpleResponse
 
     @Headers("Content-Type: application/json")
     @POST("$API_VERSION/$NOTES_ENDPOINT/update")

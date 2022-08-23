@@ -1,9 +1,7 @@
 package com.learn.ktornoteapp.ui.account.viewmodel
 
-import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.learn.ktornoteapp.R
 import com.learn.ktornoteapp.data.remote.remote_model.User
 import com.learn.ktornoteapp.repository.NoteRepo
 import com.learn.ktornoteapp.utils.Constant.MAXIMUM_PASSWORD_LENGTH
