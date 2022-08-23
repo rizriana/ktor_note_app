@@ -5,7 +5,10 @@ import androidx.room.Room
 import androidx.viewbinding.BuildConfig
 import com.google.gson.Gson
 import com.learn.ktornoteapp.data.local.NoteDatabase
+import com.learn.ktornoteapp.data.local.dao.NoteDao
 import com.learn.ktornoteapp.data.remote.NoteApiService
+import com.learn.ktornoteapp.repository.NoteRepo
+import com.learn.ktornoteapp.repository.NoteRepoImpl
 import com.learn.ktornoteapp.utils.Constant.BASE_URL
 import com.learn.ktornoteapp.utils.SessionManager
 import dagger.Module
@@ -30,6 +33,8 @@ object AppModule {
     @Provides
     fun provideGson() = Gson()
 
+    @Singleton
+    @Provides
     fun provideSessionManager(
         @ApplicationContext context: Context,
     ) = SessionManager(context)
@@ -80,5 +85,19 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NoteApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNoteRepo(
+        noteApi: NoteApiService,
+        noteDao: NoteDao,
+        sessionManager: SessionManager,
+    ): NoteRepo {
+        return NoteRepoImpl(
+            noteApi,
+            noteDao,
+            sessionManager
+        )
     }
 }

@@ -10,39 +10,39 @@ import retrofit2.http.*
 
 interface NoteApiService {
     @Headers("Content-Type: application/json")
-    @POST("/$API_VERSION/$USERS_ENDPOINT/register")
+    @POST("$API_VERSION/$USERS_ENDPOINT/register")
     suspend fun registerAccount(
         @Body user: User,
     ): SimpleResponse
 
     @Headers("Content-Type: application/json")
-    @POST("/$API_VERSION/$USERS_ENDPOINT/login")
+    @POST("$API_VERSION/$USERS_ENDPOINT/login")
     suspend fun loginAccount(
         @Body user: User,
     ): SimpleResponse
 
     @Headers("Content-Type: application/json")
-    @GET("/$API_VERSION/$NOTES_ENDPOINT")
+    @GET("$API_VERSION/$NOTES_ENDPOINT")
     suspend fun getAllNote(
         @Header("Authorization") token: String,
     ): SimpleResponse
 
     @Headers("Content-Type: application/json")
-    @POST("/$API_VERSION/$NOTES_ENDPOINT/create")
+    @POST("$API_VERSION/$NOTES_ENDPOINT/create")
     suspend fun createNote(
         @Header("Authorization") token: String,
         @Body note: RemoteNote,
     ): List<SimpleResponse>
 
     @Headers("Content-Type: application/json")
-    @POST("/$API_VERSION/$NOTES_ENDPOINT/update")
+    @POST("$API_VERSION/$NOTES_ENDPOINT/update")
     suspend fun updateNote(
         @Header("Authorization") token: String,
         @Body note: RemoteNote,
     ): SimpleResponse
 
     @Headers("Content-Type: application/json")
-    @DELETE("/$API_VERSION/$NOTES_ENDPOINT/delete")
+    @DELETE("$API_VERSION/$NOTES_ENDPOINT/delete")
     suspend fun deleteNote(
         @Header("Authorization") token: String,
         @Query("id") noteId: String,

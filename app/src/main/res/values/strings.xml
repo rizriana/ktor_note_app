@@ -13,4 +13,10 @@
     <string name="name">Name</string>
     <string name="create_new_account">Create New Account</string>
     <string name="logout">Logout</string>
+
+    <string name="some_problem_occurred">Some Problem Occurred!</string>
+    <string name="no_internet_connection">No Internet Connection!</string>
+    <string name="some_fields_are_empty">Some Fields Are Empty!</string>
+    <string name="email_is_not_valid">Email Is Not Valid!</string>
+    <string name="password_between">Password Should Be Between %1d and %2d</string>
 </resources>
