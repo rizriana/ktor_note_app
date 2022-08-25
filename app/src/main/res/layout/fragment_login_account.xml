@@ -6,30 +6,30 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/tvCreateAccount"
+        android:id="@+id/tvLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="@string/create_account"
+        android:text="@string/login"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:autofillHints="name"
+        android:autofillHints="username"
         android:background="@drawable/bg_edit_text"
-        android:hint="@string/enter_name"
-        android:inputType="text"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
         android:padding="8dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCreateAccount" />
+        app:layout_constraintTop_toBottomOf="@id/tvLogin" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -44,7 +44,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUsername" />
+        app:layout_constraintTop_toBottomOf="@id/etUserName" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -61,41 +61,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etEmail" />
 
-    <EditText
-        android:id="@+id/etPasswordReEnter"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:autofillHints="password"
-        android:background="@drawable/bg_edit_text"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:padding="8dp"
-        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="?attr/colorSecondary"
+        android:text="@string/login"
+        app:cornerRadius="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etPassword" />
 
-    <Button
-        android:id="@+id/btnCreateAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/create_account"
-        app:cornerRadius="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPasswordReEnter" />
-
     <ProgressBar
-        android:id="@+id/pbUser"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -10,12 +10,15 @@
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/drawable/not_sync.xml" value="0.1" />
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/drawable/synced.xml" value="0.1" />
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_all_notes.xml" value="0.1" />
+        <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_all_notes.xml" value="0.22" />
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_create_account.xml" value="0.16" />
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_login.xml" value="0.16" />
+        <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_login_account.xml" value="0.2861111111111111" />
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_new_note.xml" value="0.18" />
+        <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_register_account.xml" value="0.2861111111111111" />
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/fragment_user_info.xml" value="0.2" />
         <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/layout/item_note.xml" value="0.22" />
+        <entry key="..\:/Users/Anandita/Desktop/KtorNoteApp/app/src/main/res/menu/main_menu.xml" value="0.18888888888888888" />
       </map>
     </option>
   </component>
