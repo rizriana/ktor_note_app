@@ -12,7 +12,7 @@ import com.learn.ktornoteapp.databinding.ItemNoteBinding
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private var onItemCLickListener: ((LocalNote) -> Unit)? = null
-    private var listNotes = emptyList<LocalNote>()
+    var listNotes = emptyList<LocalNote>()
 
     fun setOnItemClickListener(listener: (LocalNote) -> Unit) {
         onItemCLickListener = listener

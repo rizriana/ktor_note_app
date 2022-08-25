@@ -161,12 +161,35 @@ class NoteRepoImpl @Inject constructor(
                     LocalNote(
                         noteTitle = remoteNote.noteTitle,
                         description = remoteNote.description,
-//                        date = remoteNote.date,
                         date = remoteNote.date,
                         connected = true,
                         noteId = remoteNote.id
                     )
                 )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override suspend fun deleteNote(noteId: String) {
+        try {
+            noteDao.deleteNoteLocally(noteId)
+            val token = sessionManager.getJwtToken() ?: kotlin.run {
+                noteDao.deleteNote(noteId)
+                return
+            }
+            if (!isNetworkManager(sessionManager.context)) {
+                return
+            }
+
+            val response = noteApi.deleteNote(
+                "Bearer $token",
+                noteId
+            )
+
+            if (response.success) {
+                noteDao.deleteNote(noteId)
             }
         } catch (e: Exception) {
             e.printStackTrace()

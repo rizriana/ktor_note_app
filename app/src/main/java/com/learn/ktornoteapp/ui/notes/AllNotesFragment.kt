@@ -1,5 +1,6 @@
 package com.learn.ktornoteapp.ui.notes
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,7 +14,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.learn.ktornoteapp.R
 import com.learn.ktornoteapp.databinding.FragmentAllNotesBinding
 import com.learn.ktornoteapp.ui.notes.adapter.NoteAdapter
@@ -29,6 +33,50 @@ class AllNotesFragment : Fragment(R.layout.fragment_all_notes) {
 
     private val noteViewModel: NoteViewModel by activityViewModels()
     private lateinit var noteAdapter: NoteAdapter
+
+    private val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+        0,
+        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder,
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.layoutPosition
+            val note = noteAdapter.listNotes[position]
+            noteViewModel.deleteNote(note.noteId)
+            Snackbar.make(
+                requireView(),
+                "Note Deleted Successfully!",
+                Snackbar.LENGTH_LONG
+            ).apply {
+                setAction(
+                    "Undo"
+                ) {
+                    noteViewModel.undoDelete(note)
+                }
+                show()
+            }
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX/2, dY, actionState, isCurrentlyActive)
+        }
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,6 +119,8 @@ class AllNotesFragment : Fragment(R.layout.fragment_all_notes) {
             setHasFixedSize(true)
             adapter = noteAdapter
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            ItemTouchHelper(itemTouchHelperCallback)
+                .attachToRecyclerView(this)
         }
     }
 

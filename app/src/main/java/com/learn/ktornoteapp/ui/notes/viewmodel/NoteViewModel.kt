@@ -45,9 +45,15 @@ class NoteViewModel @Inject constructor(
         noteRepo.updateNote(note)
     }
 
-    fun getCurrentDate(): String {
-        val date = Date()
-        val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
-        return simpleDateFormat.format(date)
+    fun deleteNote(
+        noteId: String,
+    ) = viewModelScope.launch {
+        noteRepo.deleteNote(noteId)
+    }
+
+    fun undoDelete(
+        note: LocalNote,
+    ) = viewModelScope.launch {
+        noteRepo.createNote(note)
     }
 }

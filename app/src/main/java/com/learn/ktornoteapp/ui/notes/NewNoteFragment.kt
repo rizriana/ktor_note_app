@@ -52,12 +52,12 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         val noteTitle = binding?.etNewNote?.text?.toString()?.trim()
         val description = binding?.etNewNoteDescription?.text?.toString()?.trim()
 
-        if(noteTitle.isNullOrEmpty() && description.isNullOrEmpty()){
+        if (noteTitle.isNullOrEmpty() && description.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Note is Empty!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        noteViewModel.createNote(noteTitle,description)
+        noteViewModel.createNote(noteTitle, description)
     }
 
     private fun updateNote() {
@@ -65,6 +65,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         val description = binding?.etNewNoteDescription?.text.toString().trim()
 
         if (noteTitle.isEmpty() && description.isEmpty()) {
+            noteViewModel.deleteNote(noteViewModel.oldNote!!.noteId)
             return
         }
 
