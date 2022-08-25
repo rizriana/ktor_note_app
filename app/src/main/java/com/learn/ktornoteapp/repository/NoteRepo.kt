@@ -17,4 +17,5 @@ interface NoteRepo {
     suspend fun getAllNotesFromServer()
 
     suspend fun deleteNote(noteId: String)
+    suspend fun syncNotes()
 }

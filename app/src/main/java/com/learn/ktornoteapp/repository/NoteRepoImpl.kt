@@ -195,4 +195,30 @@ class NoteRepoImpl @Inject constructor(
             e.printStackTrace()
         }
     }
+
+    override suspend fun syncNotes() {
+        try {
+            sessionManager.getJwtToken() ?: return
+            if (!isNetworkManager(sessionManager.context)) {
+                return
+            }
+
+            val locallyDeletedNotes = noteDao.getAllLocallyDeletedNotes()
+            locallyDeletedNotes.forEach {
+                deleteNote(it.noteId)
+            }
+
+            val notConnectedNotes = noteDao.getAllLocalNote()
+            notConnectedNotes.forEach {
+                createNote(it)
+            }
+
+            val notUpdateNotes = noteDao.getAllLocalNote()
+            notUpdateNotes.forEach {
+                updateNote(it)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

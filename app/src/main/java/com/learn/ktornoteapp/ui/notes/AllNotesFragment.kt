@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -23,7 +24,9 @@ import com.learn.ktornoteapp.databinding.FragmentAllNotesBinding
 import com.learn.ktornoteapp.ui.notes.adapter.NoteAdapter
 import com.learn.ktornoteapp.ui.notes.viewmodel.NoteViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 
 @AndroidEntryPoint
 class AllNotesFragment : Fragment(R.layout.fragment_all_notes) {
@@ -71,9 +74,15 @@ class AllNotesFragment : Fragment(R.layout.fragment_all_notes) {
             dX: Float,
             dY: Float,
             actionState: Int,
-            isCurrentlyActive: Boolean
+            isCurrentlyActive: Boolean,
         ) {
-            super.onChildDraw(c, recyclerView, viewHolder, dX/2, dY, actionState, isCurrentlyActive)
+            super.onChildDraw(c,
+                recyclerView,
+                viewHolder,
+                dX / 2,
+                dY,
+                actionState,
+                isCurrentlyActive)
         }
 
     }
@@ -91,6 +100,34 @@ class AllNotesFragment : Fragment(R.layout.fragment_all_notes) {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.main_menu, menu)
+                val item = menu.findItem(R.id.search)
+                val searchView = item.actionView as SearchView
+                item.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                    override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                        noteViewModel.searchQuery = ""
+                        return true
+                    }
+
+                    override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                        noteViewModel.searchQuery = ""
+                        return true
+                    }
+                })
+                searchView.setOnQueryTextListener((object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        query?.let {
+                            searchNotes(it)
+                        }
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        newText?.let {
+                            searchNotes(it)
+                        }
+                        return true
+                    }
+                }))
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -105,6 +142,8 @@ class AllNotesFragment : Fragment(R.layout.fragment_all_notes) {
 
         setupRecyclerView()
         subscribeToToken()
+        setupSwipeLayout()
+        noteViewModel.syncNotes()
     }
 
     private fun setupRecyclerView() {
@@ -127,6 +166,22 @@ class AllNotesFragment : Fragment(R.layout.fragment_all_notes) {
     private fun subscribeToToken() = lifecycleScope.launch {
         noteViewModel.notes.collect { listNotes ->
             noteAdapter.setListNote(listNotes)
+        }
+    }
+
+    private fun searchNotes(query: String) = lifecycleScope.launch {
+        noteViewModel.searchQuery = query
+        noteAdapter.listNotes = noteViewModel.notes.first().filter {
+            it.noteTitle?.contains(query, true) == true ||
+                    it.description?.contains(query, true) == true
+        }
+    }
+
+    private fun setupSwipeLayout() {
+        binding?.swipeRefreshLayout?.setOnRefreshListener {
+            noteViewModel.syncNotes {
+                binding?.swipeRefreshLayout?.isRefreshing = false
+            }
         }
     }
 
