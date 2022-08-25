@@ -13,9 +13,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
-    val noteRepo: NoteRepo,
+    private val noteRepo: NoteRepo,
 ) : ViewModel() {
     var oldNote: LocalNote? = null
+    val notes = noteRepo.getAllNote()
 
     fun createNote(
         noteTitle: String?,
@@ -44,7 +45,7 @@ class NoteViewModel @Inject constructor(
         noteRepo.updateNote(note)
     }
 
-    fun milliToDate(): String {
+    fun getCurrentDate(): String {
         val date = Date()
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
         return simpleDateFormat.format(date)

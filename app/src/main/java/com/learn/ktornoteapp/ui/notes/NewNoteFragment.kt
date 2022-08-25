@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.learn.ktornoteapp.R
 import com.learn.ktornoteapp.databinding.FragmentNewNoteBinding
 import com.learn.ktornoteapp.ui.notes.viewmodel.NoteViewModel
-import com.learn.ktornoteapp.utils.showToast
+import com.learn.ktornoteapp.utils.DateHelper.getCurrentDate
 
 class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     private var _binding: FragmentNewNoteBinding? = null
@@ -18,7 +18,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         get() = _binding
 
     private val noteViewModel: NoteViewModel by activityViewModels()
-    val args: NewNoteFragmentArgs by navArgs()
+    private val args: NewNoteFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
 
         binding?.date?.isVisible = noteViewModel.oldNote != null
         noteViewModel.oldNote?.date?.let {
-            binding?.date?.text = noteViewModel.milliToDate()
+            binding?.date?.text = getCurrentDate()
         }
     }
 

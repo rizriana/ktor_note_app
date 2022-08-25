@@ -2,7 +2,6 @@ package com.learn.ktornoteapp.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.viewbinding.BuildConfig
 import com.google.gson.Gson
 import com.learn.ktornoteapp.data.local.NoteDatabase
 import com.learn.ktornoteapp.data.local.dao.NoteDao
@@ -16,13 +15,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import net.sqlcipher.database.SQLiteDatabase
-import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -43,17 +39,20 @@ object AppModule {
     @Provides
     fun provideNoteDatabase(
         @ApplicationContext context: Context,
-    ): NoteDatabase {
-        val passphrase: ByteArray = SQLiteDatabase.getBytes("note_app".toCharArray())
-        val factory = SupportFactory(passphrase)
-        return Room.databaseBuilder(
-            context,
-            NoteDatabase::class.java,
-            "note_db"
-        ).fallbackToDestructiveMigration()
-            .openHelperFactory(factory)
-            .build()
-    }
+    ): NoteDatabase = Room.databaseBuilder(
+        context,
+        NoteDatabase::class.java,
+        "note_db"
+    ).build()
+//        val passphrase: ByteArray = SQLiteDatabase.getBytes("note_app".toCharArray())
+//        val factory = SupportFactory(passphrase)
+//        return Room.databaseBuilder(
+//            context,
+//            NoteDatabase::class.java,
+//            "note_db"
+//        ).fallbackToDestructiveMigration()
+//            .openHelperFactory(factory)
+//            .build()
 
     @Singleton
     @Provides

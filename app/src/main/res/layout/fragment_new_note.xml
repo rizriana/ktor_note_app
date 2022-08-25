@@ -45,7 +45,6 @@
         android:gravity="top"
         android:hint="@string/description"
         android:importantForAutofill="no"
-        android:inputType="text"
         android:padding="20sp"
         android:textColorHint="#9A9A9A"
         android:textSize="25sp"

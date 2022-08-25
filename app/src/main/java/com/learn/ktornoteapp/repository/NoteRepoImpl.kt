@@ -7,9 +7,11 @@ import com.learn.ktornoteapp.data.local.local_model.LocalNote
 import com.learn.ktornoteapp.data.remote.NoteApiService
 import com.learn.ktornoteapp.data.remote.remote_model.RemoteNote
 import com.learn.ktornoteapp.data.remote.remote_model.User
+import com.learn.ktornoteapp.utils.DateHelper.getCurrentDate
 import com.learn.ktornoteapp.utils.Result
 import com.learn.ktornoteapp.utils.SessionManager
 import com.learn.ktornoteapp.utils.isNetworkManager
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NoteRepoImpl @Inject constructor(
@@ -44,6 +46,7 @@ class NoteRepoImpl @Inject constructor(
             val result = noteApi.loginAccount(user)
             if (result.success) {
                 sessionManager.updateSession(result.message, user.name ?: "", user.email)
+                getAllNotesFromServer()
                 Result.Success("Logged In Successfully!")
             } else {
                 Result.Error<String>(result.message)
@@ -83,11 +86,12 @@ class NoteRepoImpl @Inject constructor(
     }
 
     override suspend fun createNote(note: LocalNote): Result<String> {
-        return try {
+        try {
             noteDao.insertNote(note)
             val token = sessionManager.getJwtToken()
-            if (token == null) {
-                Result.Success("Note is Saved in Local Database!")
+                ?: return Result.Success("Note is Saved in Local Database!")
+            if (!isNetworkManager(sessionManager.context)) {
+                return Result.Error("No Internet Connection!")
             }
 
             val result = noteApi.createNote(
@@ -100,7 +104,7 @@ class NoteRepoImpl @Inject constructor(
                 )
             )
 
-            if (result.success) {
+            return if (result.success) {
                 noteDao.insertNote(note.also { it.connected = true })
                 Result.Success("Note Saved Successfully!")
             } else {
@@ -108,16 +112,17 @@ class NoteRepoImpl @Inject constructor(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Result.Error(e.message ?: "Some Problem Occurred!")
+            return Result.Error(e.message ?: "Some Problem Occurred!")
         }
     }
 
     override suspend fun updateNote(note: LocalNote): Result<String> {
-        return try {
+        try {
             noteDao.insertNote(note)
             val token = sessionManager.getJwtToken()
-            if (token == null) {
-                Result.Success("Note is Updated in Local Database!")
+                ?: return Result.Success("Note is Updated in Local Database!")
+            if (!isNetworkManager(sessionManager.context)) {
+                return Result.Error("No Internet Connection!")
             }
 
             val result = noteApi.updateNote(
@@ -130,7 +135,7 @@ class NoteRepoImpl @Inject constructor(
                 )
             )
 
-            if (result.success) {
+            return if (result.success) {
                 noteDao.insertNote(note.also { it.connected = true })
                 Result.Success("Note Updated Successfully!")
             } else {
@@ -138,7 +143,33 @@ class NoteRepoImpl @Inject constructor(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Result.Error(e.message ?: "Some Problem Occurred!")
+            return Result.Error(e.message ?: "Some Problem Occurred!")
+        }
+    }
+
+    override fun getAllNote(): Flow<List<LocalNote>> = noteDao.getAllNotesOrderedByDate()
+
+    override suspend fun getAllNotesFromServer() {
+        try {
+            val token = sessionManager.getJwtToken() ?: return
+            if (!isNetworkManager(sessionManager.context)) {
+                return
+            }
+            val result = noteApi.getAllNote("Bearer $token")
+            result.forEach { remoteNote ->
+                noteDao.insertNote(
+                    LocalNote(
+                        noteTitle = remoteNote.noteTitle,
+                        description = remoteNote.description,
+//                        date = remoteNote.date,
+                        date = remoteNote.date,
+                        connected = true,
+                        noteId = remoteNote.id
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

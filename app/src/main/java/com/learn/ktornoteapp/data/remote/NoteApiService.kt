@@ -25,7 +25,7 @@ interface NoteApiService {
     @GET("$API_VERSION/$NOTES_ENDPOINT")
     suspend fun getAllNote(
         @Header("Authorization") token: String,
-    ): SimpleResponse
+    ): List<RemoteNote>
 
     @Headers("Content-Type: application/json")
     @POST("$API_VERSION/$NOTES_ENDPOINT/create")
