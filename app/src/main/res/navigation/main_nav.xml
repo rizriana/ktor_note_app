@@ -21,13 +21,13 @@
         android:label="NewNoteFragment" >
         <argument
             android:name="note"
-            app:argType="com.learn.ktornoteapp.data.local.local_model.LocalNote"
+            app:argType="com.learn.ktornoteapp.data.local.model.LocalNote"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
-        android:name="com.learn.ktornoteapp.ui.account.UserInfoFragment"
+        android:name="com.learn.ktornoteapp.ui.users.UserInfoFragment"
         android:label="UserInfoFragment" >
         <action
             android:id="@+id/action_userInfoFragment_to_registerAccountFragment"
@@ -38,10 +38,10 @@
     </fragment>
     <fragment
         android:id="@+id/registerAccountFragment"
-        android:name="com.learn.ktornoteapp.ui.account.RegisterAccountFragment"
+        android:name="com.learn.ktornoteapp.ui.users.RegisterAccountFragment"
         android:label="RegisterAccountFragment" />
     <fragment
         android:id="@+id/loginAccountFragment"
-        android:name="com.learn.ktornoteapp.ui.account.LoginAccountFragment"
+        android:name="com.learn.ktornoteapp.ui.users.LoginAccountFragment"
         android:label="LoginAccountFragment" />
 </navigation>

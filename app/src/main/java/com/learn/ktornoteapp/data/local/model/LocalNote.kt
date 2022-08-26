@@ -1,4 +1,4 @@
-package com.learn.ktornoteapp.data.local.local_model
+package com.learn.ktornoteapp.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

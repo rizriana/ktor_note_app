@@ -2,13 +2,11 @@ package com.learn.ktornoteapp.ui.notes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.learn.ktornoteapp.data.local.local_model.LocalNote
-import com.learn.ktornoteapp.repository.NoteRepo
+import com.learn.ktornoteapp.data.local.model.LocalNote
+import com.learn.ktornoteapp.data.repository.notes.NoteRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel

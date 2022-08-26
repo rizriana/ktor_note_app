@@ -1,9 +1,9 @@
-package com.learn.ktornoteapp.ui.account.viewmodel
+package com.learn.ktornoteapp.ui.users.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.learn.ktornoteapp.data.remote.remote_model.User
-import com.learn.ktornoteapp.repository.NoteRepo
+import com.learn.ktornoteapp.data.remote.model.User
+import com.learn.ktornoteapp.data.repository.users.UserRepo
 import com.learn.ktornoteapp.utils.Constant.MAXIMUM_PASSWORD_LENGTH
 import com.learn.ktornoteapp.utils.Constant.MINIMUM_PASSWORD_LENGTH
 import com.learn.ktornoteapp.utils.Result
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    val noteRepo: NoteRepo,
+    private val userRepo: UserRepo,
 ) : ViewModel() {
     private val _registerState = MutableSharedFlow<Result<String>>()
     val registerState: SharedFlow<Result<String>> = _registerState
@@ -54,7 +54,7 @@ class UserViewModel @Inject constructor(
             email,
             password
         )
-        _registerState.emit(noteRepo.createUser(newUser))
+        _registerState.emit(userRepo.createUser(newUser))
     }
 
     fun loginUser(
@@ -84,16 +84,16 @@ class UserViewModel @Inject constructor(
             email,
             password
         )
-        _loginState.emit(noteRepo.loginUser(newUser))
+        _loginState.emit(userRepo.loginUser(newUser))
     }
 
     fun getCurrentUser() = viewModelScope.launch {
         _currentUserState.emit(Result.Loading())
-        _currentUserState.emit(noteRepo.getUser())
+        _currentUserState.emit(userRepo.getUser())
     }
 
     fun logout() = viewModelScope.launch {
-        val result = noteRepo.logoutUser()
+        val result = userRepo.logoutUser()
         if (result is Result.Success) {
             getCurrentUser()
         }

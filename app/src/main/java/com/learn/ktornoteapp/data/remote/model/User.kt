@@ -1,4 +1,4 @@
-package com.learn.ktornoteapp.data.remote.remote_model
+package com.learn.ktornoteapp.data.remote.model
 
 data class User(
     val name: String? = null,

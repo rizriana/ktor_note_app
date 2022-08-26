@@ -13,14 +13,6 @@ fun Context.showToast(
     }
 }
 
-fun ProgressBar.showProgressbar() {
-    this.makeVisible()
-}
-
-fun ProgressBar.hideProgressbar() {
-    this.makeInvisible()
-}
-
 fun View.makeVisible() {
     this.visibility = View.VISIBLE
 }

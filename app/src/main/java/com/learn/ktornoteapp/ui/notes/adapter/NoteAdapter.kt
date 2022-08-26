@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil.calculateDiff
 import androidx.recyclerview.widget.RecyclerView
 import com.learn.ktornoteapp.R
-import com.learn.ktornoteapp.data.local.local_model.LocalNote
+import com.learn.ktornoteapp.data.local.model.LocalNote
 import com.learn.ktornoteapp.databinding.ItemNoteBinding
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {

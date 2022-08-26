@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.learn.ktornoteapp.data.local.local_model.LocalNote
+import com.learn.ktornoteapp.data.local.model.LocalNote
 import kotlinx.coroutines.flow.Flow
 
 @Dao

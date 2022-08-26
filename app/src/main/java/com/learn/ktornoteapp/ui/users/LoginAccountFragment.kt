@@ -1,4 +1,4 @@
-package com.learn.ktornoteapp.ui.account
+package com.learn.ktornoteapp.ui.users
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.learn.ktornoteapp.R
 import com.learn.ktornoteapp.databinding.FragmentLoginAccountBinding
-import com.learn.ktornoteapp.ui.account.viewmodel.UserViewModel
+import com.learn.ktornoteapp.ui.users.viewmodel.UserViewModel
 import com.learn.ktornoteapp.utils.Result
 import com.learn.ktornoteapp.utils.makeInvisible
 import com.learn.ktornoteapp.utils.makeVisible
@@ -43,7 +43,7 @@ class LoginAccountFragment : Fragment(R.layout.fragment_login_account) {
     }
 
     private fun subscribeToLoginEvents() = lifecycleScope.launch {
-        userViewModel.loginState.collect() { result ->
+        userViewModel.loginState.collect { result ->
             when (result) {
                 is Result.Success -> {
                     binding?.progressBar?.makeInvisible()

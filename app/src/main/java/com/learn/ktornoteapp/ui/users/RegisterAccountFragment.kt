@@ -1,4 +1,4 @@
-package com.learn.ktornoteapp.ui.account
+package com.learn.ktornoteapp.ui.users
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.learn.ktornoteapp.R
 import com.learn.ktornoteapp.databinding.FragmentRegisterAccountBinding
-import com.learn.ktornoteapp.ui.account.viewmodel.UserViewModel
+import com.learn.ktornoteapp.ui.users.viewmodel.UserViewModel
 import com.learn.ktornoteapp.utils.Result
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -44,7 +44,7 @@ class RegisterAccountFragment : Fragment(R.layout.fragment_register_account) {
     }
 
     private fun subscribeToRegisterEvents() = lifecycleScope.launch {
-        userViewModel.registerState.collect() { result ->
+        userViewModel.registerState.collect { result ->
             when (result) {
                 is Result.Success -> {
                     binding?.progressBar?.makeInvisible()
